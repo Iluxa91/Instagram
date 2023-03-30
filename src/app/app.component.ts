@@ -6,5 +6,11 @@ import { Component } from '@angular/core'
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'instagram'
+  appTitle = 'instagram'
+
+  text = 'start value'
+
+  changeTextHandler(e: Event) {
+    this.text = (e.currentTarget as HTMLInputElement).value
+  }
 }

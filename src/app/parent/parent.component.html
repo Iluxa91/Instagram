@@ -1,0 +1,37 @@
+<div *ngIf="isLoading">
+  <h1>Loading...</h1>
+</div>
+
+<ng-container *ngIf="!isLoading">
+  <div *ngFor="let lesson of lessons">
+    <div>
+      <h2>{{ lesson.title }}</h2>
+      <div>
+        <h3>
+          weekGrades
+          <div *ngFor="let grade of lesson.weekGrades">{{ grade.gradeItem }}</div>
+        </h3>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<hr />
+
+<input type="text" [(ngModel)]="value" />
+
+<div [ngSwitch]="value">
+  <div *ngSwitchCase="1">One</div>
+  <div *ngSwitchCase="2">Two</div>
+  <div *ngSwitchCase="3">Three</div>
+  <div *ngSwitchDefault class="error">unknown number</div>
+</div>
+
+<hr />
+
+<h1 [ngClass]="{ default: true, success: isSuccess }">Lorem</h1>
+<h1 [ngClass]="{ 'default success': isSuccess }">Lorem</h1>
+
+<hr />
+
+<h1 [ngStyle]="{ color: 'blue' }">Lorem style</h1>
