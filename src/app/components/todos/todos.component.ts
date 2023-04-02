@@ -1,12 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-
-interface Todo {
-  title: string
-  id: string
-  addedDate: string
-  order: number
-}
+import { Todo, TodosService } from '../../services/todos.service'
 
 @Component({
   selector: 'inst-todos',
@@ -16,22 +9,31 @@ interface Todo {
 export class TodosComponent implements OnInit {
   todos: Todo[] = []
 
-  constructor(private http: HttpClient) {}
+  constructor(private todosService: TodosService) {}
 
   ngOnInit() {
     this.getTodos()
   }
 
   getTodos() {
-    this.http
-      .get<Todo[]>('https://social-network.samuraijs.com/api/1.1/todo-lists', {
-        withCredentials: true,
-        headers: {
-          'api-key': 'f531eeea-9465-4931-943e-b884b6779012',
-        },
-      })
-      .subscribe(res => {
-        this.todos = res
-      })
+    this.todosService.getTodos().subscribe(res => {
+      this.todos = res
+    })
+  }
+
+  createTodo() {
+    const random = Math.floor(Math.random() * 100)
+    const title = 'angular ' + random
+    this.todosService.createTodo(title).subscribe(res => {
+      const newTodo = res.data.item
+      this.todos.unshift(newTodo)
+    })
+  }
+
+  deleteTodo() {
+    const todoId = 'fa40d910-e3c1-40ee-8f0b-04e232eb5275'
+    this.todosService.deleteTodo(todoId).subscribe(() => {
+      this.todos = this.todos.filter(tl => tl.id !== todoId)
+    })
   }
 }
