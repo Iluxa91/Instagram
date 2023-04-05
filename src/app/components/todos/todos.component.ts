@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Todo, TodosService } from '../../services/todos.service'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'inst-todos',
@@ -7,33 +8,29 @@ import { Todo, TodosService } from '../../services/todos.service'
   styleUrls: ['./todos.component.scss'],
 })
 export class TodosComponent implements OnInit {
-  todos: Todo[] = []
+  todos$!: Observable<Todo[]>
+
+  error = ''
 
   constructor(private todosService: TodosService) {}
 
   ngOnInit() {
+    this.todos$ = this.todosService.todos$
     this.getTodos()
   }
 
   getTodos() {
-    this.todosService.getTodos().subscribe(res => {
-      this.todos = res
-    })
+    this.todosService.getTodos()
   }
 
   createTodo() {
     const random = Math.floor(Math.random() * 100)
     const title = 'angular ' + random
-    this.todosService.createTodo(title).subscribe(res => {
-      const newTodo = res.data.item
-      this.todos.unshift(newTodo)
-    })
+    this.todosService.createTodo(title)
   }
 
   deleteTodo() {
-    const todoId = 'fa40d910-e3c1-40ee-8f0b-04e232eb5275'
-    this.todosService.deleteTodo(todoId).subscribe(() => {
-      this.todos = this.todos.filter(tl => tl.id !== todoId)
-    })
+    const todoId = '896d58f9-ee63-446b-999b-2d3734607f96'
+    this.todosService.deleteTodo(todoId)
   }
 }
