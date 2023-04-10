@@ -12,7 +12,7 @@ import { ProfileComponent } from './components/profile/profile.component'
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component'
 import { UsersComponent } from './components/users/users.component'
 import { HomeComponent } from './components/home/home.component'
-import { RouterModule } from '@angular/router'
+import { AppRoutingRoutingModule } from './app-routing-routing.module'
 
 @NgModule({
   declarations: [
@@ -31,13 +31,7 @@ import { RouterModule } from '@angular/router'
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'todos', component: TodosComponent },
-      { path: 'users', component: UsersComponent },
-      { path: 'profile', component: ProfileComponent },
-    ]),
+    AppRoutingRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
