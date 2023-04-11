@@ -1,22 +1,10 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { BehaviorSubject, catchError, EMPTY, map } from 'rxjs'
-import { environment } from '../../environment/environment'
-import { BeatyLoggerService } from './beaty-logger.service'
-
-export interface Todo {
-  title: string
-  id: string
-  addedDate: string
-  order: number
-}
-
-export interface BaseResponse<T = object> {
-  data: T
-  messages: string[]
-  fieldsErrors: string[]
-  resultCode: number
-}
+import { environment } from '../../../environment/environment'
+import { BeautyLoggerService } from '../../core/services/beauty-logger.service'
+import { Todo } from '../models/todos.model'
+import { BaseResponse } from '../../core/models/core.model'
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +19,7 @@ export class TodosService {
 
   todos$: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([])
 
-  constructor(private http: HttpClient, private beatyLoggerService: BeatyLoggerService) {}
+  constructor(private http: HttpClient, private beatyLoggerService: BeautyLoggerService) {}
 
   getTodos() {
     this.http

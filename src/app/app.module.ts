@@ -3,35 +3,25 @@ import { BrowserModule } from '@angular/platform-browser'
 
 import { AppComponent } from './app.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { ParentComponent } from './parent/parent.component'
-import { ChildComponent } from './parent/child/child.component'
-import { TodosComponent } from './components/todos/todos.component'
 import { HttpClientModule } from '@angular/common/http'
-import { LoginComponent } from './components/login/login/login.component'
-import { ProfileComponent } from './components/profile/profile.component'
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component'
-import { UsersComponent } from './components/users/users.component'
-import { HomeComponent } from './components/home/home.component'
 import { AppRoutingRoutingModule } from './app-routing-routing.module'
+import { HomeModule } from './home/home.module'
+import { ProfileModule } from './profile/profile.module'
+import { SharedModule } from './shared/shared.module'
+import { CoreModule } from './core/core.module'
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ParentComponent,
-    ChildComponent,
-    TodosComponent,
-    LoginComponent,
-    ProfileComponent,
-    PageNotFoundComponent,
-    UsersComponent,
-    HomeComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
     AppRoutingRoutingModule,
+    HomeModule,
+    ProfileModule,
+    SharedModule,
+    CoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

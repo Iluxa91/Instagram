@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-import { User, UsersService } from '../../services/users.service'
 import { Observable } from 'rxjs'
 import { ActivatedRoute, Params, Router } from '@angular/router'
+import { User } from '../../models/users.model'
+import { UsersService } from '../../services/users.service'
 
 @Component({
   selector: 'inst-users',

@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core'
+import { SeverityType } from '../models/core.model'
 
-type SeverityType = 'info' | 'success' | 'error' | 'warning'
-
-@Injectable({
-  providedIn: 'root',
-})
-export class BeatyLoggerService {
+@Injectable()
+export class BeautyLoggerService {
   log(message: string, type: SeverityType) {
     console.log(`%c ${message}`, this.getSeverity(type))
   }
