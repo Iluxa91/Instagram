@@ -4,12 +4,14 @@ import { Observable } from 'rxjs'
 import { Todo } from '../../models/todos.model'
 
 @Component({
-  selector: 'inst-todos',
+  selector: 'tl-todos',
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.scss'],
 })
 export class TodosComponent implements OnInit {
   todos$!: Observable<Todo[]>
+
+  todoTitle = ''
 
   error = ''
 
@@ -24,14 +26,13 @@ export class TodosComponent implements OnInit {
     this.todosService.getTodos()
   }
 
-  createTodo() {
-    const random = Math.floor(Math.random() * 100)
-    const title = 'angular ' + random
-    this.todosService.createTodo(title)
+  addTodoHandler() {
+    this.todosService.createTodo(this.todoTitle)
+    this.todoTitle = ''
   }
 
   deleteTodo() {
-    const todoId = '896d58f9-ee63-446b-999b-2d3734607f96'
+    const todoId = '126c2636-07c5-44a1-90bd-39b087ff8afc'
     this.todosService.deleteTodo(todoId)
   }
 }

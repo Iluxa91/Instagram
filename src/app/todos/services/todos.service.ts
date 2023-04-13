@@ -6,24 +6,15 @@ import { BeautyLoggerService } from '../../core/services/beauty-logger.service'
 import { Todo } from '../models/todos.model'
 import { BaseResponse } from '../../core/models/core.model'
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class TodosService {
-  httpOptions = {
-    withCredentials: true,
-    headers: {
-      'api-key': environment.apiKey,
-    },
-  }
-
   todos$: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([])
 
-  constructor(private http: HttpClient, private beatyLoggerService: BeautyLoggerService) {}
+  constructor(private http: HttpClient, private beautyLoggerService: BeautyLoggerService) {}
 
   getTodos() {
     this.http
-      .get<Todo[]>(`${environment.baseUrl}/todo-lists`, this.httpOptions)
+      .get<Todo[]>(`${environment.baseUrl}/todo-lists`)
       .pipe(catchError(this.errorHandler.bind(this)))
       .subscribe(todos => {
         this.todos$.next(todos)
@@ -32,11 +23,7 @@ export class TodosService {
 
   createTodo(title: string) {
     this.http
-      .post<BaseResponse<{ item: Todo }>>(
-        `${environment.baseUrl}/todo-lists`,
-        { title },
-        this.httpOptions
-      )
+      .post<BaseResponse<{ item: Todo }>>(`${environment.baseUrl}/todo-lists`, { title })
       .pipe(
         catchError(this.errorHandler.bind(this)),
         map(res => {
@@ -52,7 +39,7 @@ export class TodosService {
 
   deleteTodo(todoId: string) {
     this.http
-      .delete<BaseResponse>(`${environment.baseUrl}/todo-lists/${todoId}`, this.httpOptions)
+      .delete<BaseResponse>(`${environment.baseUrl}/todo-lists/${todoId}`)
       .pipe(
         catchError(this.errorHandler.bind(this)),
         map(() => {
@@ -65,7 +52,7 @@ export class TodosService {
   }
 
   private errorHandler(err: HttpErrorResponse) {
-    this.beatyLoggerService.log(err.message, 'error')
+    this.beautyLoggerService.log(err.message, 'error')
     return EMPTY
   }
 }

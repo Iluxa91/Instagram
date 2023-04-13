@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { TodosComponent } from './components/todos/todos.component'
 import { AuthGuard } from '../core/guards/auth.guard'
 
-const routes: Routes = [{ path: '', component: TodosComponent, canActivate: [AuthGuard] }]
+const routes: Routes = [{ path: '', component: TodosComponent, pathMatch: 'full' }]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
