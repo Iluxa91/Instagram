@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { Todo } from '../../../models/todos.model'
 
 @Component({
@@ -8,4 +8,24 @@ import { Todo } from '../../../models/todos.model'
 })
 export class TodoComponent {
   @Input() todo!: Todo
+  @Output() removeTodoEvent = new EventEmitter<string>()
+  @Output() changeTitleEvent = new EventEmitter<{ newTitle: string; todoId: string }>()
+
+  newTitle = ''
+
+  isEditMode = false
+
+  removeTodoHandler() {
+    this.removeTodoEvent.emit(this.todo.id)
+  }
+
+  activateEditTitle() {
+    this.isEditMode = true
+    this.newTitle = this.todo.title
+  }
+
+  deactivateEditMode() {
+    this.isEditMode = false
+    this.changeTitleEvent.emit({ newTitle: this.newTitle, todoId: this.todo.id })
+  }
 }

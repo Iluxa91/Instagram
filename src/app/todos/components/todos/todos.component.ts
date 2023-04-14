@@ -31,8 +31,11 @@ export class TodosComponent implements OnInit {
     this.todoTitle = ''
   }
 
-  deleteTodo() {
-    const todoId = '126c2636-07c5-44a1-90bd-39b087ff8afc'
+  deleteTodo(todoId: string) {
     this.todosService.deleteTodo(todoId)
+  }
+
+  changeTitle(data: { newTitle: string; todoId: string }) {
+    this.todosService.updateTodoTitle(data)
   }
 }

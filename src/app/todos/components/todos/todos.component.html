@@ -9,7 +9,10 @@
     <input class="input" type="text" placeholder="add todolist" [(ngModel)]="todoTitle" />
     <button (click)="addTodoHandler()">add todolist</button>
   </div>
-  <tl-todo *ngFor="let todo of todos$ | async" [todo]="todo"></tl-todo>
-
-  <button (click)="deleteTodo()">-</button>
+  <tl-todo
+    *ngFor="let todo of todos$ | async"
+    [todo]="todo"
+    (removeTodoEvent)="deleteTodo($event)"
+    (changeTitleEvent)="changeTitle($event)"
+  ></tl-todo>
 </ng-template>

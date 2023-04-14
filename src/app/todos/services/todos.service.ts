@@ -51,6 +51,24 @@ export class TodosService {
       })
   }
 
+  updateTodoTitle(data: { newTitle: string; todoId: string }) {
+    this.http
+      .put<BaseResponse>(`${environment.baseUrl}/todo-lists/${data.todoId}`, {
+        title: data.newTitle,
+      })
+      .pipe(
+        catchError(this.errorHandler.bind(this)),
+        map(() => {
+          return this.todos$
+            .getValue()
+            .map(tl => (tl.id === data.todoId ? { ...tl, title: data.newTitle } : tl))
+        })
+      )
+      .subscribe(todos => {
+        this.todos$.next(todos)
+      })
+  }
+
   private errorHandler(err: HttpErrorResponse) {
     this.beautyLoggerService.log(err.message, 'error')
     return EMPTY
