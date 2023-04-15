@@ -1,18 +1,60 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { map, Observable } from 'rxjs'
+import { BehaviorSubject, map } from 'rxjs'
 import { environment } from '../../../environment/environment'
-import { GetTasksResponse, Task } from '../models/task.model'
+import { DomainTask, GetTasksResponse, Task } from '../models/task.model'
+import { BaseResponse } from '../../core/models/core.model'
 
 @Injectable({
   providedIn: 'root',
 })
 export class TasksService {
+  tasks$ = new BehaviorSubject<DomainTask>({})
+
   constructor(private http: HttpClient) {}
 
-  getTasks(todoId: string): Observable<Task[]> {
+  getTasks(todoId: string) {
     return this.http
       .get<GetTasksResponse>(`${environment.baseUrl}/todo-lists/${todoId}/tasks`)
       .pipe(map(tl => tl.items))
+      .subscribe(tasks => {
+        const stateTasks = this.tasks$.getValue()
+        stateTasks[todoId] = tasks
+        this.tasks$.next(stateTasks)
+      })
+  }
+
+  createTask(data: { todoId: string; title: string }) {
+    this.http
+      .post<BaseResponse<{ item: Task }>>(
+        `${environment.baseUrl}/todo-lists/${data.todoId}/tasks`,
+        {
+          title: data.title,
+        }
+      )
+      .pipe(map(res => res.data.item))
+      .subscribe(task => {
+        const stateTasks = this.tasks$.getValue()
+        const newTasks = [task, ...stateTasks[data.todoId]]
+        stateTasks[data.todoId] = newTasks
+        this.tasks$.next(stateTasks)
+      })
+  }
+
+  deleteTask(todoId: string, taskId: string) {
+    return this.http
+      .delete<BaseResponse>(`${environment.baseUrl}/todo-lists/${todoId}/tasks/${taskId}`)
+      .pipe(
+        map(res => {
+          const stateTasks = this.tasks$.getValue()
+          const tasksForTodo = stateTasks[todoId]
+          const filteredTasks = tasksForTodo.filter(t => t.id !== taskId)
+          stateTasks[todoId] = filteredTasks
+          return stateTasks
+        })
+      )
+      .subscribe(tasks => {
+        this.tasks$.next(tasks)
+      })
   }
 }

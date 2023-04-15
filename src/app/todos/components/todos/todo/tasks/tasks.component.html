@@ -1,1 +1,6 @@
-<tl-task *ngFor="let task of tasks$ | async" [task]="task"></tl-task>
+<input type="text" [(ngModel)]="newTitle" (keydown.enter)="addTaskHandler()" />
+<tl-task
+  *ngFor="let task of tasks$ | async"
+  [task]="task"
+  (removeTaskEvent)="removeTaskHandler($event)"
+></tl-task>
