@@ -3,19 +3,25 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { BehaviorSubject, catchError, EMPTY, map } from 'rxjs'
 import { environment } from '../../../environment/environment'
 import { BeautyLoggerService } from '../../core/services/beauty-logger.service'
-import { Todo } from '../models/todos.model'
+import { DomainTodo, FilterType, Todo } from '../models/todos.model'
 import { BaseResponse } from '../../core/models/core.model'
 
 @Injectable()
 export class TodosService {
-  todos$: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([])
+  todos$: BehaviorSubject<DomainTodo[]> = new BehaviorSubject<DomainTodo[]>([])
 
   constructor(private http: HttpClient, private beautyLoggerService: BeautyLoggerService) {}
 
   getTodos() {
     this.http
       .get<Todo[]>(`${environment.baseUrl}/todo-lists`)
-      .pipe(catchError(this.errorHandler.bind(this)))
+      .pipe(
+        catchError(this.errorHandler.bind(this)),
+        map(todos => {
+          const newTodos: DomainTodo[] = todos.map(tl => ({ ...tl, filter: 'all' }))
+          return newTodos
+        })
+      )
       .subscribe(todos => {
         this.todos$.next(todos)
       })
@@ -27,8 +33,8 @@ export class TodosService {
       .pipe(
         catchError(this.errorHandler.bind(this)),
         map(res => {
-          const newTodo = res.data.item
           const stateTodos = this.todos$.getValue()
+          const newTodo: DomainTodo = { ...res.data.item, filter: 'all' }
           return [newTodo, ...stateTodos]
         })
       )
@@ -67,6 +73,14 @@ export class TodosService {
       .subscribe(todos => {
         this.todos$.next(todos)
       })
+  }
+
+  changeFilter(data: { filter: FilterType; todoId: string }) {
+    const stateTodos = this.todos$.getValue()
+    const newTodos = stateTodos.map(tl =>
+      tl.id === data.todoId ? { ...tl, filter: data.filter } : tl
+    )
+    this.todos$.next(newTodos)
   }
 
   private errorHandler(err: HttpErrorResponse) {

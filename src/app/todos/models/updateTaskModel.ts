@@ -4,11 +4,14 @@ export interface GetTasksResponse {
   error: string
 }
 
-export interface Task {
+export interface Task extends UpdateTaskModel {
   id: string
   todoListId: string
   order: number
   addedDate: string
+}
+
+export interface UpdateTaskModel {
   title: string
   description: string
   completed: boolean
