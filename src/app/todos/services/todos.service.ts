@@ -5,12 +5,17 @@ import { environment } from '../../../environment/environment'
 import { BeautyLoggerService } from '../../core/services/beauty-logger.service'
 import { DomainTodo, FilterType, Todo } from '../models/todos.model'
 import { BaseResponse } from '../../core/models/core.model'
+import { NotificationService } from '../../core/services/notification.service'
 
 @Injectable()
 export class TodosService {
   todos$: BehaviorSubject<DomainTodo[]> = new BehaviorSubject<DomainTodo[]>([])
 
-  constructor(private http: HttpClient, private beautyLoggerService: BeautyLoggerService) {}
+  constructor(
+    private http: HttpClient,
+    private beautyLoggerService: BeautyLoggerService,
+    private notificationService: NotificationService
+  ) {}
 
   getTodos() {
     this.http
@@ -85,6 +90,7 @@ export class TodosService {
 
   private errorHandler(err: HttpErrorResponse) {
     this.beautyLoggerService.log(err.message, 'error')
+    this.notificationService.handleError(err.message)
     return EMPTY
   }
 }

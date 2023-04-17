@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { RouterModule } from '@angular/router'
+import { NotifyComponent } from './components/notify/notify.component'
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule, RouterModule],
-  exports: [],
+  declarations: [NotifyComponent],
+  imports: [CommonModule],
+  exports: [NotifyComponent],
 })
 export class SharedModule {}

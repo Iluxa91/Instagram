@@ -6,20 +6,10 @@ import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module'
 import { SharedModule } from './shared/shared.module'
 import { CoreModule } from './core/core.module'
-import { AuthModule } from './auth/auth.module'
-import { TodosModule } from './todos/todos.module'
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    AuthModule,
-    TodosModule,
-    SharedModule,
-    CoreModule,
-  ],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule, SharedModule, CoreModule],
   providers: [],
   bootstrap: [AppComponent],
 })
