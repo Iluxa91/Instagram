@@ -1,6 +1,7 @@
 export enum ResultCodes {
   success,
   error,
+  captcha = 10,
 }
 
 export enum TaskStatus {

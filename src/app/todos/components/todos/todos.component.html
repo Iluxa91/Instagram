@@ -1,5 +1,6 @@
 <div class="todos-header">
   <h1>Angular TODO</h1>
+  <button (click)="logoutHandler()">log out</button>
 </div>
 
 <h1 *ngIf="!!error; else content">{{ error }}</h1>

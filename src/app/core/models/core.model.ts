@@ -6,14 +6,9 @@ export interface BaseResponse<T = object> {
 }
 
 export interface MeResponse {
-  data: {
-    id: number
-    login: string
-    email: string
-  }
-  messages: string[]
-  fieldErrors: string[]
-  resultCode: number
+  id: number
+  login: string
+  email: string
 }
 
 export type SeverityType = 'info' | 'success' | 'error' | 'warning'
