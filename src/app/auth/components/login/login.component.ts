@@ -25,17 +25,17 @@ export class LoginComponent {
   //     validators: [Validators.required, Validators.minLength(3)],
   //   }),
   // })
-  // constructor(private authService: AuthService) {}
-  //
-  // onLoginSubmit() {
-  //   // this.authService.login(this.loginForm.value)
-  // }
-  //
-  // get email() {
-  //   // return this.loginForm.get('email')
-  // }
-  //
-  // get password() {
-  //   // return this.loginForm.get('password')
-  // }
+  constructor(private authService: AuthService) {}
+
+  onLoginSubmit() {
+    this.authService.login(this.loginForm.value)
+  }
+
+  get email() {
+    return this.loginForm.get('email')
+  }
+
+  get password() {
+    return this.loginForm.get('password')
+  }
 }
